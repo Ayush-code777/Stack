@@ -1,0 +1,131 @@
+#include<stdio.h>
+#include <stdlib.h>
+
+
+struct node{
+    int data;
+    struct node * next;
+};
+
+void linkedlistTraversal(struct node * ptr){
+    //struct node * p=(struct node*)malloc(sizeof(struct node));
+    while(ptr!=NULL){
+        printf("Element : %d\n",ptr->data);
+        ptr=ptr->next;
+
+    }
+}
+
+int isEmpty(struct node *q){
+    if(q==NULL){
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
+int isFull(struct node *q){
+    struct node * ptr=(struct node*)malloc(sizeof(struct node));
+
+    if(ptr==NULL){
+        return 1;
+    }
+    else{
+        return 0;
+    }
+}
+
+struct node* push(struct node *p, int value){
+    struct node * ptr= (struct node*)malloc(sizeof(struct node));
+    if(isFull(p)){
+        printf("Stack overflow");
+    }
+    else{
+        ptr->next=p;
+        ptr->data=value;
+        p=ptr;
+        //top++;
+        return p;
+    }
+
+
+}
+
+int pop(struct node ** p){
+    if(isEmpty((*p))){
+        printf("Stack underflow");
+    }
+    else{
+        struct node *ptr=(*p);
+        (*p)=(*p)->next;
+        int value=ptr->data;
+        free(ptr);
+        //top--;
+        return value;
+    }
+
+
+
+}
+
+int peek(struct node *p,int pos){
+    struct node * ptr =p;
+    for(int i=0;(i<(pos-1) && ptr!=NULL);i++){
+        ptr=ptr->next;
+    }
+    if(ptr!=NULL){
+        return ptr->data;
+
+    }
+    else{
+        return -1;
+        
+    }
+}
+
+int StackTop(struct node * top){
+    return top->data;
+}
+    
+    
+
+
+int main(int argc, char const *argv[])
+{
+    struct node * top=NULL;
+
+    
+    linkedlistTraversal(top);
+
+    top=push(top,14);
+    printf("After pushing the element\n");
+    top=push(top,67);
+    top=push(top,87);
+    top=push(top,94);
+    top=push(top,555);
+    linkedlistTraversal(top);
+
+    printf("The popped element is : %d\n\n",pop(&top));
+    /*Instead of using "(&top)" we can declare the top variable as a global variable so any changes 
+      will be reflected as a whole*/
+      //And try not to keep the gloabal and local variable as the same name.
+    
+    linkedlistTraversal(top);
+
+    printf("The first element is: %d\n",peek(top,1));
+
+    for(int i=1;i<=4;i++){ // Iknow the number of elements here
+        printf("The %d element is: %d\n",i,peek(top,i));
+    }
+
+    int a=StackTop(top);
+    printf("The toppest element is %d\n",a);
+    printf("The popped element is : %d\n\n",pop(&top));
+    printf("The toppest element is %d\n",StackTop(top));
+    linkedlistTraversal(top);
+
+
+
+
+    return 0;
+}
